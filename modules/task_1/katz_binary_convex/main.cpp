@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include "convex_binary.h"
-#include "../../../modules/task_1/kats_binary_convex/convex_binary.h"
+#include "../../../modules/task_1/katz_binary_convex/convex_binary.h"
 
 TEST(convex_binary_seq, random_pic_validation) {
 	// Arrange
