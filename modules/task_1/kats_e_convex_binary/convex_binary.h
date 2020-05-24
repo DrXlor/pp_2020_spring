@@ -1,6 +1,6 @@
-// Copyright 2020 Kats Eugeny
-#ifndef MODULES_TASK_1_KATS_BINARY_CONVEX_CONVEX_BINARY_H_
-#define MODULES_TASK_1_KATS_BINARY_CONVEX_CONVEX_BINARY_H_
+// Copyright 2020 Katz Eugeny
+#ifndef MODULES_TASK_1_KATZ_BINARY_CONVEX_CONVEX_BINARY_H_
+#define MODULES_TASK_1_KATZ_BINARY_CONVEX_CONVEX_BINARY_H_
 
 #include <algorithm>
 #include <vector>
@@ -17,4 +17,4 @@ public:
 	std::vector<int*> inside(std::vector<int*> vec, int** convex_arr, int a);
 };
 
-#endif  // MODULES_TASK_1_KATS_BINARY_CONVEX_CONVEX_BINARY_H_
+#endif  // MODULES_TASK_1_KATZ_BINARY_CONVEX_CONVEX_BINARY_H_

@@ -1,4 +1,4 @@
-// Copyright 2020 Kats Eugeny
+// Copyright 2020 Katz Eugeny
 
 #include <iostream>
 #include <random>
