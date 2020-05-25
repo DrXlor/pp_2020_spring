@@ -119,7 +119,7 @@ std::vector<int*> MainClass::getComponent(int** arr, int n, int m,
       }
       y = i - 1;
       if (y + 1 <= 0) {
-        y = 1; 
+        y = 1;
         C = 0;
       } else {
         C = arr[y][j];
