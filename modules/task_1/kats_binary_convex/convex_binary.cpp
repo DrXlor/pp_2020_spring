@@ -1,7 +1,6 @@
 // Copyright 2020 Katz Eugeny
 
-#include "convex_binary.h"
-
+#include "../../../modules/task_1/kats_binary_convex/convex_binary.h"
 #include <algorithm>
 #include <ctime>
 #include <iostream>
@@ -9,6 +8,7 @@
 #include <random>
 #include <stdexcept>
 #include <vector>
+
 
 int** SideClass::getRandomPic(const int a, const int b) {
   if ((a <= 0) || (b <= 0)) throw "\tError_In_Rows_&_Columns\n";
@@ -119,7 +119,7 @@ std::vector<int*> MainClass::getComponent(int** arr, int n, int m,
       }
       y = i - 1;
       if (y + 1 <= 0) {
-        y = 1;
+        y = 1; 
         C = 0;
       } else {
         C = arr[y][j];

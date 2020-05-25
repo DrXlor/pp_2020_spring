@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <vector>
+
 class SideClass {
  public:
   double length(int* start, int* end);

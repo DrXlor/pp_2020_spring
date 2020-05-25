@@ -1,11 +1,9 @@
 // Copyright 2020 Kats Eugeny
-#include <gtest/gtest.h>
 
+#include <gtest/gtest.h>
 #include <algorithm>
 #include <vector>
-
 #include "../../../modules/task_1/kats_binary_convex/convex_binary.h"
-#include "convex_binary.h"
 
 TEST(convex_binary_seq, random_pic_validation) {
   // Arrange
