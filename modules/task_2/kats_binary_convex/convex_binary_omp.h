@@ -1,6 +1,6 @@
 // Copyright 2020 Kats Eugeny
-#ifndef MODULES_TASK_2_KATS_BINARY_CONVEX_CONVEX_BINARY_H_
-#define MODULES_TASK_2_KATS_BINARY_CONVEX_CONVEX_BINARY_H_
+#ifndef MODULES_TASK_2_KATS_BINARY_CONVEX_CONVEX_BINARY_OMP_H_
+#define MODULES_TASK_2_KATS_BINARY_CONVEX_CONVEX_BINARY_OMP_H_
 
 #include <omp.h>
 #include <algorithm>
@@ -20,4 +20,4 @@ class MainClass {
   std::vector<int*> inside(std::vector<int*> vec, int** convex_arr, int a);
 };
 
-#endif  // MODULES_TASK_2_KATS_BINARY_CONVEX_CONVEX_BINARY_H_
+#endif  // MODULES_TASK_2_KATS_BINARY_CONVEX_CONVEX_BINARY_OMP_H_
