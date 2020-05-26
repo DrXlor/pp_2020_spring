@@ -1,22 +1,17 @@
 // Copyright 2020 Kats Eugeny
 
-#include <tbb/tbb.h>
-
-#include <algorithm>
-#include <ctime>
+#include "../../../modules/task_2/kats_binary_convex/convex_binary_omp.h"
+#include <omp.h>
 #include <iostream>
-#include <numeric>
 #include <random>
-#include <stdexcept>
+#include <ctime>
 #include <vector>
-
-#include "../../../modules/task_3/kats_binary_convex/convex_binary_tbb.h"
-
+#include <stdexcept>
+#include <algorithm>
+#include <numeric>
 
 int** SideClass::getRandomPic(const int a, const int b) {
-  if ((a <= 0) || (b <= 0)) throw "\tError_In_Rows_&_Columns\n";
-  fflush(stdout);
-  ;
+  if ((a <= 0) || (b <= 0)) throw "\tError_In_Rows_&_Columns\n"; fflush(stdout);;
   int** arr = new int*[a];
   std::mt19937 seed;
   std::uniform_real_distribution<> urd(0, 100);
@@ -47,7 +42,7 @@ double SideClass::cosinus(int* p1, int* p2, int* p3) {
   return result;
 }
 
-std::vector<int*> MainClass::jarvis(int** convex_arr, int n) {
+std::vector<int*> MainClass::jarvis_OMP(int** convex_arr, int n) {
   SideClass sc;
   std::vector<int*> res;
   if (n == 1) {
@@ -79,37 +74,37 @@ std::vector<int*> MainClass::jarvis(int** convex_arr, int n) {
     beforelast[0] = convex_arr[count][0] - 2;
     beforelast[1] = convex_arr[count][1];
 
-    double mincos, cos;
-    int minind = 0;
+    double mincosinus, cosinus;
+    int minid = 0;
     double maxlen = 0;
     while (1) {
-      mincos = 2;
+      mincosinus = 2;
       for (int i = 0; i < n; i++) {
-        cos = round(sc.cosinus(last, beforelast, convex_arr[i]) * 10000000) /
+        cosinus = round(sc.cosinus(last, beforelast, convex_arr[i]) * 10000000) /
               10000000;
-        if (cos < mincos) {
-          minind = i;
-          mincos = cos;
+        if (cosinus < mincosinus) {
+          minid = i;
+          mincosinus = cosinus;
           maxlen = sc.length(last, convex_arr[i]);
-        } else if (cos == mincos) {
+        } else if (cosinus == mincosinus) {
           double len = sc.length(last, convex_arr[i]);
           if (len > maxlen) {
-            minind = i;
+            minid = i;
             maxlen = len;
           }
         }
       }
 
       beforelast = last;
-      last = convex_arr[minind];
+      last = convex_arr[minid];
       if (last == convex_arr[count]) break;
-      res.push_back(convex_arr[minind]);
+      res.push_back(convex_arr[minid]);
     }
   }
   return res;
 }
 
-std::vector<int*> MainClass::getComponent(int** arr, int n, int m,
+std::vector<int*> MainClass::getComponent_OMP(int** arr, int n, int m,
                                           int*** convex_arr, int* num) {
   MainClass mc;
   int x = 0, y = 0, bf = 1;
@@ -162,6 +157,7 @@ std::vector<int*> MainClass::getComponent(int** arr, int n, int m,
   for (int i = 0; i < *num; i++) (*convex_arr)[i] = new int[3];
 
   int tmp = 0;
+#pragma omp parallel for
   for (int i = 0; i < n; i++)
     for (int j = 0; j < m; j++) {
       if (arr[i][j] != 0) {
@@ -173,149 +169,7 @@ std::vector<int*> MainClass::getComponent(int** arr, int n, int m,
     }
 
   std::vector<int*> res;
-  res = mc.jarvis(*convex_arr, *num);
-  return res;
-}
-
-std::vector<int*> MainClass::jarvis_TBB(int** convex_arr, int n) {
-  SideClass sc;
-  std::vector<int*> res;
-  if (n == 1) {
-    res.push_back(convex_arr[0]);
-  } else if (n == 2) {
-    res.push_back(convex_arr[0]);
-    res.push_back(convex_arr[1]);
-  } else {
-    double* buf = new double[2];
-    buf[0] = convex_arr[0][0];
-    buf[1] = convex_arr[0][1];
-    int count = 0;
-
-    for (int i = 1; i < n; i++) {
-      if (convex_arr[i][1] < buf[1]) {
-        count = i;
-      } else {
-        if ((convex_arr[i][1] == buf[1]) && (convex_arr[i][0] < buf[0])) {
-          count = i;
-        }
-      }
-    }
-
-    res.push_back(convex_arr[count]);
-
-    int* last = new int[2];
-    int* beforelast = new int[2];
-    last = convex_arr[count];
-    beforelast[0] = convex_arr[count][0] - 2;
-    beforelast[1] = convex_arr[count][1];
-
-    double mincosinus, cosinus;
-    int minid = 0;
-    double maxlen = 0;
-    while (1) {
-      mincosinus = 2;
-      for (int i = 0; i < n; i++) {
-        cosinus =
-            round(sc.cosinus(last, beforelast, convex_arr[i]) * 10000000) /
-            10000000;
-        if (cosinus < mincosinus) {
-          minid = i;
-          mincosinus = cosinus;
-          maxlen = sc.length(last, convex_arr[i]);
-        } else if (cosinus == mincosinus) {
-          double len = sc.length(last, convex_arr[i]);
-          if (len > maxlen) {
-            minid = i;
-            maxlen = len;
-          }
-        }
-      }
-
-      beforelast = last;
-      last = convex_arr[minid];
-      if (last == convex_arr[count]) break;
-      res.push_back(convex_arr[minid]);
-    }
-  }
-  return res;
-}
-
-std::vector<int*> MainClass::getComponent_TBB(int** arr, int n, int m,
-                                              int*** convex_arr, int* num,
-                                              int num_thr) {
-  MainClass mc;
-  tbb::task_scheduler_init init(num_thr);
-  *num = 0;
-  int x = 0, y = 0, cur = 1, A, B, C;
-  for (int i = 0; i < n; i++)
-    for (int j = 0; j < m; j++) {
-      x = j - 1;
-      if (x + 1 <= 0) {
-        x = 1;
-        B = 0;
-      } else {
-        B = arr[i][x];
-      }
-      y = i - 1;
-      if (y + 1 <= 0) {
-        y = 1;
-        C = 0;
-      } else {
-        C = arr[y][j];
-      }
-      A = arr[i][j];
-
-      if (A == 0) {
-      } else {
-        *num = *num + 1;
-        if (B == 0 && C == 0) {
-          cur++;
-          arr[i][j] = cur;
-        }
-        if (B != 0 && C == 0) {
-          arr[i][j] = B;
-        }
-        if (B == 0 && C != 0) {
-          arr[i][j] = C;
-        }
-        if (B != 0 && C != 0) {
-          if (B == C) {
-            arr[i][j] = B;
-          } else {
-            arr[i][j] = B;
-
-            tbb::parallel_for(tbb::blocked_range<int>(0, i),
-                              [=](const tbb::blocked_range<int>& t) {
-                                int begin = t.begin(), end = t.end();
-                                for (int i_t = begin; i_t != end; i_t++)
-                                  for (int i_s = 0; i_s < m; i_s++)
-                                    if (arr[i_t][i_s] == C) {
-                                      arr[i_t][i_s] = B;
-                                    }
-                              });
-          }
-        }
-      }
-    }
-
-  init.terminate();
-
-  (*convex_arr) = new int*[*num];
-  for (int i = 0; i < *num; i++) (*convex_arr)[i] = new int[3];
-
-  int tmp = 0;
-  for (int i = 0; i < n; i++)
-    for (int j = 0; j < m; j++) {
-      if (arr[i][j] != 0) {
-        (*convex_arr)[tmp][0] = j;
-        (*convex_arr)[tmp][1] = i;
-        (*convex_arr)[tmp][2] = arr[i][j];
-        tmp++;
-      }
-    }
-
-  std::vector<int*> res;
-  res = mc.jarvis(*convex_arr, *num);
+  res = mc.jarvis_OMP(*convex_arr, *num);
   return res;
 }
 
