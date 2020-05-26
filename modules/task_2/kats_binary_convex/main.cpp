@@ -118,6 +118,15 @@ TEST(convex_binary_seq, test_sq) {
         EXPECT_EQ(temp[0], tmp[i][0]);
         EXPECT_EQ(temp[1], tmp[i][1]);
     }
+    for (int i = 0; i < s; i++)
+        delete[] tmp[i];
+    delete[] tmp;
+    for (int i = 0; i < n; i++)
+        delete[] arr[i];
+    delete[] arr;
+    for (int i = 0; i < num; i++)
+        delete[] convex_arr[i];
+    delete[] convex_arr;
 }
 
 TEST(convex_binary_seq, test_inside) {
