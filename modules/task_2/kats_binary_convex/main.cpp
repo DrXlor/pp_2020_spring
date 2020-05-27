@@ -121,7 +121,7 @@ TEST(convex_binary_seq, test_sq) {
     for (int i = 0; i < s; i++)
         delete[] tmp[i];
     delete[] tmp;
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < a; i++)
         delete[] arr[i];
     delete[] arr;
     for (int i = 0; i < num; i++)
