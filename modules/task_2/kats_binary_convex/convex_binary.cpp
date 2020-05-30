@@ -199,8 +199,8 @@ std::vector<int*> MainClass::jarvis_OMP(int** convex_arr, int n, int num_thr) {
     double len;
 
 #pragma omp parallel private(id, delta, ost, mincos, cos, minind, maxlen, \
-                             last, beforelast, len) num_threads(num_thr){
-      delta = n / num_thr;
+                             last, beforelast, len) num_threads(num_thr)
+{     delta = n / num_thr;
       id = omp_get_thread_num();
 
       if (id == num_thr - 1) {
