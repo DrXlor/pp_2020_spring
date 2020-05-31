@@ -16,7 +16,6 @@ TEST(convex_binary_seq, random_pic_validation) {
 
 TEST(convex_binary_omp, test_with_one_point) {
   // Arrange
-  SideClass sc;
   MainClass mc;
   std::vector<int*> result;
   int** convex_arr = NULL;
@@ -53,7 +52,6 @@ TEST(convex_binary_omp, test_with_one_point) {
 
 TEST(convex_binary_omp, test_with_one_line) {
   // Arrange
-  SideClass sc;
   MainClass mc;
   std::vector<int*> result;
   int** convex_arr = NULL;
@@ -97,7 +95,6 @@ TEST(convex_binary_omp, test_with_one_line) {
 
 TEST(convex_binary_omp, test_sq) {
   // Arrange
-  SideClass sc;
   MainClass mc;
   std::vector<int*> result;
   int** convex_arr = NULL;
